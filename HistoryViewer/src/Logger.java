@@ -5,6 +5,12 @@ public class Logger {
     public static final int FILE = 10;
     public static final int CONSOLE = 11;
 
+    private PrintWriter fileWriter;
+
+    public Logger(final String logFile){
+        fileWriter = new PrintWriter(new FileWriter(logFile));
+    }
+
     public void log(int dest, int priority, final String text){
         String logMessage;
         switch (priority)
@@ -28,15 +34,18 @@ public class Logger {
             }
             default:
             {
-                logMessage = "";
-                //throw new Exception("asda");
+                logMessage = "ERROR: Invalid log priority";
             }
         }
 
         if(dest == CONSOLE){
             System.out.println(logMessage);
         } else {
-
+            fileWriter.write(logMessage + '\n');
         }
+    }
+
+    public void close(){
+        fileWriter.close();
     }
 }

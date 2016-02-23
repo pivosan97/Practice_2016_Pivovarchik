@@ -2,9 +2,11 @@ import java.util.LinkedList;
 
 public class History {
     private LinkedList<Message> messages;
+    Logger logger;
 
     public History(Logger logger, String fileName){
-
+        this.logger = logger;
+        //load history from file
     }
 
     public void addNewMessage(Message msg){
@@ -22,4 +24,9 @@ public class History {
 
         return filteredHist;
     }
+
+    public void saveChanges(){
+        //update changes
+    }
+
 }
