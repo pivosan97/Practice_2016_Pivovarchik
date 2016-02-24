@@ -7,7 +7,7 @@ public class Logger {
 
     private PrintWriter fileWriter;
 
-    public Logger(final String logFile){
+    public Logger(final String logFile) throws IOExeption {
         fileWriter = new PrintWriter(new FileWriter(logFile));
     }
 
@@ -41,7 +41,7 @@ public class Logger {
         if(dest == CONSOLE){
             System.out.println(logMessage);
         } else {
-            fileWriter.write(logMessage + '\n');
+            fileWriter.print(logMessage + '\n');
         }
     }
 

@@ -27,6 +27,13 @@ public class Message {
         date = msg.date;
     }
 
+    public Message(String author, String text){
+        this.author = author;
+        this.text = text;
+        id = -1;
+        date = "not set";
+    }
+
     public Message(String author, String text, String date, Integer id) {
         this.author = author;
         this.text = text;
