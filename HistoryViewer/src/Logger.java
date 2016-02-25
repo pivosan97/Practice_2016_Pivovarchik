@@ -2,8 +2,7 @@ public class Logger {
     public static final int ERR = 1;
     public static final int WRN = 2;
     public static final int DBG = 3;
-    public static final int FILE = 10;
-    public static final int CONSOLE = 11;
+    public static final int INF = 4;
 
     private PrintWriter fileWriter;
 
@@ -11,7 +10,7 @@ public class Logger {
         fileWriter = new PrintWriter(new FileWriter(logFile));
     }
 
-    public void log(int dest, int priority, final String text){
+    public void log(int priority, final String text){
         String logMessage;
         switch (priority)
         {
@@ -32,17 +31,21 @@ public class Logger {
                 logMessage = "ERROR: " + text;
                 break;
             }
+
+            case INF:
+            {
+                logMessage = "INFO: " + text;
+                break;
+            }
+
             default:
             {
                 logMessage = "ERROR: Invalid log priority";
             }
         }
 
-        if(dest == CONSOLE){
-            System.out.println(logMessage);
-        } else {
-            fileWriter.print(logMessage + '\n');
-        }
+
+        fileWriter.print(logMessage + '\n');
     }
 
     public void close(){
