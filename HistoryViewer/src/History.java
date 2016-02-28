@@ -1,3 +1,4 @@
+import javax.json.stream.JsonParsingException;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.sql.Timestamp;
@@ -16,32 +17,20 @@ public class History {
         serializer = new JSONSerializer();
     }
 
-    public void loadFromFile(String fileName) throws IOException{
+    public void loadFromFile(String fileName) throws JsonParsingException, IOException{
         serializer.initReader(fileName);
-        LinkedList<Message> buf = new LinkedList<>();
 
-        Message msg = null;
-        while((msg = serializer.read()) != null){
-            buf.add(msg);
-        }
+        messages = serializer.read();
 
         serializer.closeReader();
-
-        messages = buf;
-
-        logger.log(Logger.INF, "Load history from file.");
     }
 
     public void saveChanges(String histFileName) throws IOException {
         serializer.initWriter(histFileName);
 
-        for(Message msg : messages){
-            serializer.write(msg);
-        }
+        serializer.write(messages);
 
         serializer.closeWriter();
-
-        logger.log(Logger.INF, "Save history changes.");
     }
 
     public void addNewMessage(final Message msg){
@@ -54,7 +43,6 @@ public class History {
         nextID = nextID.add(BigInteger.ONE);
 
         messages.add(copy);
-        logger.log(Logger.INF, "New msg added to local history.");
     }
 
     public LinkedList<Message> findByAuthor(String author){
@@ -83,7 +71,7 @@ public class History {
         LinkedList<Message> searchResult = new LinkedList<>();
 
         for (Message msg: messages) {
-            if(msg.getText().contentEquals(keyword)) {
+            if(msg.getText().contains(keyword)) {
                 searchResult.add(new Message(msg));
             }
         }
@@ -128,6 +116,7 @@ public class History {
     public void removeMessage(BigInteger msgID){
         for(Message msg : messages){
             if(msg.getID().compareTo(msgID) == 0){
+                logger.log(Logger.INF, "Remove msg from history, msgID: " + msgID);
                 messages.remove(msg);
                 break;
             }

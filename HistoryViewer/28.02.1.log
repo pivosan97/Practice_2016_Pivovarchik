@@ -1,0 +1,15 @@
+INFO: Redirect log to file: 28.02.1.log
+INFO: Main menu started.
+INFO: Request to print all history
+INFO: New message is added
+INFO: New message is added
+INFO: New message is added
+INFO: New message is added
+INFO: New message is added
+INFO: Request to print all history
+INFO: Remove msg from history, msgID: 4
+INFO: Request to print all history
+INFO: Save history to file: 28.02.1.hist
+INFO: Request to find message by author
+INFO: Exit from chat
+INFO: Close logger.

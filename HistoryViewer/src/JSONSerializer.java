@@ -1,10 +1,8 @@
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
-import javax.json.JsonWriter;
+import javax.json.*;
 import java.io.*;
 import java.math.BigInteger;
 import java.sql.Timestamp;
+import java.util.LinkedList;
 
 public class JSONSerializer {
     private JsonReader reader = null;
@@ -16,14 +14,24 @@ public class JSONSerializer {
         writer = Json.createWriter(new FileWriter(new File(fileName)));
     }
 
-    public void write(final Message msg){
-        JsonObject msgObject = Json.createObjectBuilder()
-                .add("author", msg.getAuthor())
-                .add("text", msg.getText())
-                .add("id", "ID" + msg.getID())
-                .add("timestamp", msg.getTimestamp().toString())
-                .build();
-        writer.writeObject(msgObject);
+    public void write(final LinkedList<Message> messages){
+        LinkedList<JsonObject> msgObjects = new LinkedList<>();
+        for(Message msg : messages) {
+            JsonObject msgObject = Json.createObjectBuilder()
+                    .add("author", msg.getAuthor())
+                    .add("text", msg.getText())
+                    .add("id", "ID" + msg.getID())
+                    .add("timestamp", msg.getTimestamp().toString()).build();
+            msgObjects.add(msgObject);
+        }
+
+        JsonArrayBuilder histBuilder = Json.createArrayBuilder();
+        for(JsonObject obj : msgObjects){
+            histBuilder.add(obj);
+        }
+        JsonArray histArray = histBuilder.build();
+
+        writer.writeArray(histArray);
     }
 
     public void closeWriter(){
@@ -34,18 +42,20 @@ public class JSONSerializer {
         reader = Json.createReader(new FileReader(new File(fileName)));
     }
 
-    public Message read(){
-        try {
-            JsonObject msgObject = reader.readObject();
+    public LinkedList<Message> read(){
+        JsonArray msgObjArray = reader.readArray();
+
+        LinkedList<Message> messages = new LinkedList<>();
+        for (int i = 0; i < msgObjArray.size(); i++) {
             Message msg = new Message();
-            msg.setAuthor(msgObject.getString("author"));
-            msg.setText(msgObject.getString("text"));
-            msg.setId(new BigInteger(msgObject.getString("id").substring(2)));
-            msg.setTimestamp(Timestamp.valueOf(msgObject.getString("timestamp")));
-            return msg;
-        } catch(IllegalStateException err){
-            return null;
+            msg.setAuthor(msgObjArray.getJsonObject(i).getString("author"));
+            msg.setText(msgObjArray.getJsonObject(i).getString("text"));
+            msg.setId(new BigInteger(msgObjArray.getJsonObject(i).getString("id").substring(2)));
+            msg.setTimestamp(Timestamp.valueOf(msgObjArray.getJsonObject(i).getString("timestamp")));
+            messages.add(msg);
         }
+
+        return messages;
     }
 
     public void closeReader(){

@@ -1,3 +1,4 @@
+import javax.json.stream.JsonParsingException;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.sql.Timestamp;
@@ -61,6 +62,7 @@ public class Application {
             try {
                 ans = in.nextInt();
             } catch (InputMismatchException err) {
+                logger.log(Logger.WRN, "Invalid input in main menu");
                 System.out.println("Invalid input, please enter number, " + err.getMessage());
             } finally {
                 in.nextLine();
@@ -98,6 +100,7 @@ public class Application {
                 }
 
                 case 7: {
+                    logger.log(Logger.INF, "Exit from chat");
                     logger.log(Logger.INF, "Close logger.");
                     logger.close();
                     System.out.println("Goodbuy");
@@ -105,7 +108,7 @@ public class Application {
                 }
 
                 default: {
-                    logger.log(Logger.INF, "Invalid index in main menu.");
+                    logger.log(Logger.INF, "Invalid index in mainMenu()");
                     System.out.println("Invalid index!");
                     break;
                 }
@@ -123,6 +126,7 @@ public class Application {
         msg.setAuthor(author);
         msg.setText(text);
         history.addNewMessage(msg);
+        logger.log(Logger.INF, "New message is added");
     }
 
     private void printHistory() {
@@ -130,6 +134,7 @@ public class Application {
         for (Message msg : messages) {
             System.out.println(msg.toString());
         }
+        logger.log(Logger.INF, "Request to print all history");
     }
 
     private void removeMessage() {
@@ -138,6 +143,7 @@ public class Application {
         try {
             history.removeMessage(new BigInteger(ans));
         } catch (NumberFormatException err) {
+            logger.log(Logger.WRN, "Invalid input in removeMessage()");
             System.out.println("Invalid msgID, please enter number, " + err.getMessage());
         }
     }
@@ -155,6 +161,7 @@ public class Application {
         try {
             ans = in.nextInt();
         } catch (InputMismatchException err) {
+            logger.log(Logger.WRN, "Invalid input in findMessage()");
             System.out.println("Invalid input, please enter number, " + err.getMessage());
             return;
         } finally {
@@ -173,6 +180,7 @@ public class Application {
                     String author = in.nextLine();
 
                     result = history.findByAuthor(author);
+                    logger.log(Logger.INF, "Request to find message by author");
                     break;
                 }
 
@@ -181,6 +189,7 @@ public class Application {
                     String keyWord = in.nextLine();
 
                     result = history.findByKeyword(keyWord);
+                    logger.log(Logger.INF, "Request to find message by keyword");
                     break;
                 }
 
@@ -189,6 +198,7 @@ public class Application {
                     String regExp = in.nextLine();
 
                     result = history.findByRegExp(regExp);
+                    logger.log(Logger.INF, "Request to find message by regexp");
                     break;
                 }
 
@@ -200,9 +210,10 @@ public class Application {
 
                     try {
                         result = history.findByDatePeriod(Timestamp.valueOf(startDate), Timestamp.valueOf(endDate));
+                        logger.log(Logger.INF, "Request to find message by date period");
                     } catch (IllegalArgumentException err) {
+                        logger.log(Logger.WRN, "Invalid date format in findMessage()");
                         System.out.println("Invalid date format, " + err.getMessage());
-
                     }
 
                     break;
@@ -214,7 +225,7 @@ public class Application {
 
                 default: {
                     isValidAnswer = false;
-                    logger.log(Logger.INF, "Invalid index in find menu.");
+                    logger.log(Logger.INF, "Invalid index in findMessage()");
                     System.out.println("Invalid index!\n");
                     break;
                 }
@@ -233,6 +244,7 @@ public class Application {
         try {
             histFileName = in.next();
         } catch (InputMismatchException err) {
+            logger.log(Logger.WRN, "Invalid input in loadHistoryFromFile()");
             System.out.println("Invalid input, please enter single word, " + err.getMessage());
             return;
         } finally {
@@ -245,6 +257,9 @@ public class Application {
         } catch (IOException err) {
             System.out.println("Failed to load history from file: " + histFileName + ", " + err.getMessage());
             logger.log(Logger.ERR, "Failed to load history from file: " + histFileName + ", " + err.getMessage());
+        } catch (JsonParsingException err){
+            logger.log(Logger.ERR, "Failed to load history from file: " + histFileName + ", " + err.getMessage());
+            System.out.println("Failed to load history from file: " + histFileName + ", " + err.getMessage());
         }
     }
 
@@ -255,6 +270,7 @@ public class Application {
         try {
             fileName = in.next();
         } catch (InputMismatchException err) {
+            logger.log(Logger.WRN, "Invalid input in saveHistoryToFile()");
             System.out.println("Invalid input, please enter single word, " + err.getMessage());
             return;
         } finally {
@@ -263,7 +279,9 @@ public class Application {
 
         try {
             history.saveChanges(fileName);
+            logger.log(Logger.INF, "Save history to file: " + fileName);
         } catch (IOException err) {
+            logger.log(Logger.ERR, "Failed to save history to file: " + fileName);
             System.out.println(err.getMessage());
         }
     }
