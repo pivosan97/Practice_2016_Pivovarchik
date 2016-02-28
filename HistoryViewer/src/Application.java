@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.util.InputMismatchException;
 import java.util.LinkedList;
 import java.util.Scanner;
+import java.util.regex.PatternSyntaxException;
 
 public class Application {
     private Scanner in;
@@ -197,8 +198,13 @@ public class Application {
                     System.out.println("Enter regular expression: ");
                     String regExp = in.nextLine();
 
-                    result = history.findByRegExp(regExp);
-                    logger.log(Logger.INF, "Request to find message by regexp");
+                    try {
+                        result = history.findByRegExp(regExp);
+                        logger.log(Logger.INF, "Request to find message by regexp");
+                    }catch (PatternSyntaxException err){
+                        logger.log(Logger.WRN, "Invalid regular expression: " + regExp + ", " + err.getMessage());
+                        System.out.println("Invalid regular expression, " + err.getMessage());
+                    }
                     break;
                 }
 

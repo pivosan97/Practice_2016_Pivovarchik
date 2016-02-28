@@ -4,6 +4,9 @@ import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.LinkedList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 public class History {
     private JSONSerializer serializer;
@@ -79,14 +82,16 @@ public class History {
         return searchResult;
     }
 
-    public LinkedList<Message> findByRegExp(String regExp){
+    public LinkedList<Message> findByRegExp(String regExp) throws PatternSyntaxException{
         LinkedList<Message> searchResult = new LinkedList<>();
 
-        /*for (Message msg: messages) {
-            if(regExp.try(msg.getText()) == 0) {
+        Pattern pattern = Pattern.compile(regExp);
+        for (Message msg : messages) {
+            Matcher matcher = pattern.matcher(msg.getText());
+            if(matcher.find()) {
                 searchResult.add(new Message(msg));
             }
-        }*/
+        }
 
         return searchResult;
     }
