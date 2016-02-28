@@ -1,10 +1,29 @@
+import java.math.BigInteger;
+import java.sql.Timestamp;
+
 public class Message {
-    private Integer id;
+    private BigInteger id;
     private String author;
     private String text;
-    private String date;
+    private Timestamp timestamp;
 
-    public Integer getId() {
+    public void setId(BigInteger id) {
+        this.id = id;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public BigInteger getID() {
         return id;
     }
 
@@ -16,28 +35,21 @@ public class Message {
         return text;
     }
 
-    public String getDate() {
-        return date;
+    public Timestamp getTimestamp() {
+        return timestamp;
     }
+
+    public Message(){}
 
     public Message(Message msg){
         id = msg.id;
         author = msg.author;
         text = msg.text;
-        date = msg.date;
+        timestamp = msg.timestamp;
     }
 
-    public Message(String author, String text){
-        this.author = author;
-        this.text = text;
-        id = -1;
-        date = "not set";
-    }
-
-    public Message(String author, String text, String date, Integer id) {
-        this.author = author;
-        this.text = text;
-        this.date = date;
-        this.id = id;
+    @Override
+    public String toString() {
+        return id + " : " + timestamp + "\n" + author + "\n" + "   " + text;
     }
 }

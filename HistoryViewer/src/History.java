@@ -1,32 +1,63 @@
+import java.io.IOException;
+import java.math.BigInteger;
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.LinkedList;
 
 public class History {
+    private JSONSerializer serializer;
+    private Logger logger;
     private LinkedList<Message> messages;
-    Logger logger;
+    private BigInteger nextID = BigInteger.ONE;
 
-    public History(Logger logger, String fileName){
+    public History(Logger logger){
         this.logger = logger;
-        //init file reader
+        messages = new LinkedList<>();
+        serializer = new JSONSerializer();
     }
 
-    public void loadHistory(){
-        //load from file
-        logger.log("Load history from file.")
+    public void loadFromFile(String fileName) throws IOException{
+        serializer.initReader(fileName);
+        LinkedList<Message> buf = new LinkedList<>();
+
+        Message msg = null;
+        while((msg = serializer.read()) != null){
+            buf.add(msg);
+        }
+
+        serializer.closeReader();
+
+        messages = buf;
+
+        logger.log(Logger.INF, "Load history from file.");
     }
 
-    public void saveChanges(){
-        //update changes
-        logger.log(Logger.INF, "Save history changes.)
+    public void saveChanges(String histFileName) throws IOException {
+        serializer.initWriter(histFileName);
+
+        for(Message msg : messages){
+            serializer.write(msg);
+        }
+
+        serializer.closeWriter();
+
+        logger.log(Logger.INF, "Save history changes.");
     }
 
-    public void addNewMessage(Message msg){
-        //add timestamp to msg
-        //add id to msg
-        messages.add(msg);
-        logger.log(Logger.INF, "New msg added to local history.")
+    public void addNewMessage(final Message msg){
+        Message copy = new Message(msg);
+
+        Timestamp curTime = new Timestamp(Calendar.getInstance().getTime().getTime());
+        copy.setTimestamp(curTime);
+
+        copy.setId(nextID);
+        nextID = nextID.add(BigInteger.ONE);
+
+        messages.add(copy);
+        logger.log(Logger.INF, "New msg added to local history.");
     }
 
-    public LinkedList<Message> filterByAuthor(String author){
+    public LinkedList<Message> findByAuthor(String author){
         LinkedList<Message> searchResult = new LinkedList<>();
 
         for (Message msg: messages) {
@@ -38,11 +69,21 @@ public class History {
         return searchResult;
     }
 
-    public LinkedList<Message> filterByKeyword(String keyword){
+    public Message findByID(BigInteger msgID){
+        for (Message msg: messages) {
+            if(msg.getID().compareTo(msgID) == 0) {
+                return new Message(msg);
+            }
+        }
+
+        return null;
+    }
+
+    public LinkedList<Message> findByKeyword(final String keyword){
         LinkedList<Message> searchResult = new LinkedList<>();
 
         for (Message msg: messages) {
-            if(msg.getText.contain(keyword) == 0) {
+            if(msg.getText().contentEquals(keyword)) {
                 searchResult.add(new Message(msg));
             }
         }
@@ -50,11 +91,23 @@ public class History {
         return searchResult;
     }
 
-    public LinkedList<Message> filterByRegExp(String regExp){
+    public LinkedList<Message> findByRegExp(String regExp){
+        LinkedList<Message> searchResult = new LinkedList<>();
+
+        /*for (Message msg: messages) {
+            if(regExp.try(msg.getText()) == 0) {
+                searchResult.add(new Message(msg));
+            }
+        }*/
+
+        return searchResult;
+    }
+
+    public LinkedList<Message> findByDatePeriod(Timestamp startDate, Timestamp endDate){
         LinkedList<Message> searchResult = new LinkedList<>();
 
         for (Message msg: messages) {
-            if(regExp.try(msg.getText) == 0) {
+            if(msg.getTimestamp().after(startDate) && msg.getTimestamp().before(endDate)) {
                 searchResult.add(new Message(msg));
             }
         }
@@ -62,15 +115,22 @@ public class History {
         return searchResult;
     }
 
-    public LinkedList<Message> filterByDatePeriod(String startDate, String endDate){
-        LinkedList<Message> searchResult = new LinkedList<>();
+    public final LinkedList<Message> getMessages() {
+        LinkedList<Message> copy = new LinkedList<>();
 
-        for (Message msg: messages) {
-            if(msg.getDate() >= startDate && msg.getDate() <= endDate) {
-                searchResult.add(new Message(msg));
-            }
+        for(Message msg : messages){
+            copy.add(new Message(msg));
         }
 
-        return searchResult;
+        return copy;
+    }
+
+    public void removeMessage(BigInteger msgID){
+        for(Message msg : messages){
+            if(msg.getID().compareTo(msgID) == 0){
+                messages.remove(msg);
+                break;
+            }
+        }
     }
 }

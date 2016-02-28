@@ -1,16 +1,24 @@
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 public class Logger {
     public static final int ERR = 1;
     public static final int WRN = 2;
     public static final int DBG = 3;
     public static final int INF = 4;
 
-    private PrintWriter fileWriter;
+    private PrintWriter out;
 
-    public Logger(final String logFile) throws IOExeption {
-        fileWriter = new PrintWriter(new FileWriter(logFile));
+    public Logger() {
+        out = new PrintWriter(System.out);
     }
 
-    public void log(int priority, final String text){
+    public void redirectToFile(String fileName) throws IOException{
+        out = new PrintWriter(new FileWriter(fileName));
+    }
+
+    public void log(int priority, String text){
         String logMessage;
         switch (priority)
         {
@@ -45,10 +53,10 @@ public class Logger {
         }
 
 
-        fileWriter.print(logMessage + '\n');
+        out.print(logMessage + '\n');
     }
 
     public void close(){
-        fileWriter.close();
+        out.close();
     }
 }
