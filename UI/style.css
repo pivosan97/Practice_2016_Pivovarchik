@@ -1,0 +1,61 @@
+<style>
+#qqq{}
+
+#logo {
+        background-color: pink;
+        color: white;
+        text-align: center;
+        padding: 5px;
+	margin: 10px;
+        float: top;
+}
+
+#central {
+	height: 700px;
+	margin: auto;
+	width: 50%;
+	float: top;
+}
+
+#menu {
+	line-height: 30px;
+	background-color: #eeeeee;
+	width: 20%;
+	height: 500px;
+	float:left;
+	padding: 5px;
+	margin: 0;
+}
+
+#chatBoard {
+	margin: 0px;
+	width: 65%;
+	height: 750px;
+	float: left;
+}
+
+#chatIn {
+	margin: 0px;
+	padding: 5px;
+	float: top;
+	background-color: green;
+	height: 150px;
+}
+
+#chatOut {
+	overflow: auto;
+	margin: 0px;
+	padding: 5px;
+	float: top;
+	background-color: red;
+	height: 550px;
+}
+
+#footer {
+	background-color: black;
+	color: white;
+	clear: both;
+	text-align: center;
+	padding: 10px;
+}
+</style> 
