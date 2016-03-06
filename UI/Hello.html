@@ -9,12 +9,12 @@
 
 	 <body>
 
-		<div id="header">
+		<div id="headerDiv">
 			<h1>Cool Chat</h1>
 		</div>
 
-		<div id="central">		
-			<div id="menu">
+		<div id="centralDiv">		
+			<div id="menuDiv">
 				You logged as:
 				<br>
 				Vadim Selianik
@@ -22,72 +22,169 @@
 				<button id="exitButton"> Exit</button>
 			</div>
 
-			<div id="chatBoard">
-				<div id="chatOut">
-					<div id="message-my">
-						Name : time
+			<div id="chatBoardDiv">
+				<div id="chatOutDiv">
+					<div id="msgDiv-notmy">
+						<div id="msgAuthorDiv">
+							Name
+						</div>
 						<br>
-						Text
+						<div id="msgTextDiv">
+							Text
+						</div>
+						<br>
+						<div id="msgStatusDiv">
+							Status
+						</div>
+						<div id="msgTimeDiv">
+							Time
+						</div>
+					</div>	
+
+					<div id="msgDiv-my">
+						<div id="msgAuthorDiv">
+							Name
+						</div>
+						<br>
+						<div id="msgTextDiv">
+							Text
+						</div>
+						<br>
+						<div id="msgStatusDiv">
+							Status
+						</div>
+						<div id="msgTimeDiv">
+							Time
+						</div>
 					</div>
 
-					<div id="message-notmy">
-						Name : time
+					<div id="msgDiv-notmy">
+						<div id="msgAuthorDiv">
+							Name
+						</div>
 						<br>
-						Text
+						<div id="msgTextDiv">
+							Text
+						</div>
+						<br>
+						<div id="msgStatusDiv">
+							Status
+						</div>
+						<div id="msgTimeDiv">
+							Time
+						</div>
 					</div>
 
-					<div id="message-notmy">
-						Name : time
+					<div id="msgDiv-notmy">
+						<div id="msgAuthorDiv">
+							Name
+						</div>
 						<br>
-						Text
-					</div>
-	
-					<div id="message-my">
-						Name : time
+						<div id="msgTextDiv">
+							Text
+						</div>
 						<br>
-						Text
+						<div id="msgStatusDiv">
+							Status
+						</div>
+						<div id="msgTimeDiv">
+							Time
+						</div>
 					</div>
 
-					<div id="message-notmy">
-						Name : time
+					<div id="msgDiv-my">
+						<div id="msgAuthorDiv">
+							Name
+						</div>
 						<br>
-						Text
-					</div>
-
-					<div id="message-my">
-						Name : time
+						<div id="msgTextDiv">
+							Text
+						</div>
 						<br>
-						Text
+						<div id="msgStatusDiv">
+							Status
+						</div>
+						<div id="msgTimeDiv">
+							Time
+						</div>
 					</div>
 				
-					<div id="message-notmy">
-						Sasha P. : 12.35
+					<div id="msgDiv-notmy">
+						<div id="msgAuthorDiv">
+							Sasha P.
+						</div>
 						<br>
-						Hi, how are u?
+						<div id="msgTextDiv">
+							Hi, how are u?
+						</div>
+						<br>
+						<div id="msgStatusDiv">
+						</div>
+						<div id="msgTimeDiv">
+							12.35
+						</div>
 					</div>
 	
-					<div id="message-my">
-						Vadim Selianik : 12.37
+					<div id="msgDiv-notmy">
+						<div id="msgAuthorDiv">
+							Sasha P.
+						</div>
 						<br>
-						I am fine, how are u?
+						<div id="msgTextDiv">
+						</div>
+						<br>
+						<div id="msgStatusDiv">
+							Removed
+						</div>
+						<div id="msgTimeDiv">
+							12.35
+						</div>
 					</div>
 
-					<div id="message-notmy">
-						Sasha P. : 12.39
+					<div id="msgDiv-my">
+						<div id="msgAuthorDiv">
+							Vaim S.
+						</div>
 						<br>
-						Fine too. What are u doing?
+						<div id="msgTextDiv">
+							I am fine, how are u?
+						</div>
+						<br>
+						<div id="msgStatusDiv">
+							Read
+						</div>
+						<div id="msgTimeDiv">
+							12.36
+						</div>
+					</div>
+
+					<div id="msgDiv-notmy">
+						<div id="msgAuthorDiv">
+							Sasha P.
+						</div>
+						<br>
+						<div id="msgTextDiv">
+							Fine too, What are u doing?
+						</div>
+						<br>
+						<div id="msgStatusDiv">
+							Changed
+						</div>
+						<div id="msgTimeDiv">
+							12.39
+						</div>
 					</div>
 				</div>
 
-				<div id="chatIn">
-					<textarea id="msgText" rows="4"></textarea>
+				<div id="chatInDiv">
+					<textarea id="newMsgTextArea" rows="4"></textarea>
 					<br>
-					<button id="sendButtom">Send</button>
+					<button id="sendMsgButton">Send</button>
 				</div>
 			</div>
 		</div>
 
-		<div id="footer">
+		<div id="footerDiv">
 			Wroten by Alexandr Pivovarchik
 		</div>
 	</body> 
