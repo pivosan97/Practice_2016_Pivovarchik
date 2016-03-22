@@ -2,190 +2,72 @@
 
 	<head>
 		<link rel="stylesheet" href="style.css">
+		<script src="chat.js"></script>
 		<title>
 			coolchat.com
 		</title>
     	</head>
 
-	 <body>
+	 <body onload="run();">
 
 		<div id="headerDiv">
 			<h1>Cool Chat</h1>
 		</div>
 
 		<div id="centralDiv">		
-			<div id="menuDiv">
-				You logged as:
+			<div id="userNameDiv">
+				<input type="text" maxlength="15" placeholder="Enter your name..." id="userNameInput">
+				<button id="confirmNameButton"> Confirm </button>
 				<br>
-				Vadim Selianik
-				<br><br>
-				<button id="exitButton"> Exit</button>
+				<i> You logged in as:</i>
+				<div id="userName"></div> 
 			</div>
 
 			<div id="chatBoardDiv">
 				<div id="chatOutDiv">
-					<div id="msgDiv-notmy">
-						<div id="msgAuthorDiv">
-							Name
-						</div>
+					<div class="msg notmy">
+						<div class="msgAuthor">Sasha P.</div>
 						<br>
-						<div id="msgTextDiv">
-							Text
-						</div>
+						<div class="msgText">Hi, how are u?</div>
 						<br>
-						<div id="msgStatusDiv">
-							Status
-						</div>
-						<div id="msgTimeDiv">
-							Time
-						</div>
-					</div>	
-
-					<div id="msgDiv-my">
-						<div id="msgAuthorDiv">
-							Name
-						</div>
-						<br>
-						<div id="msgTextDiv">
-							Text
-						</div>
-						<br>
-						<div id="msgStatusDiv">
-							Status
-						</div>
-						<div id="msgTimeDiv">
-							Time
-						</div>
+						<div class="msgStatus"></div>
+						<div class="msgTime">12.35</div>
 					</div>
-
-					<div id="msgDiv-notmy">
-						<div id="msgAuthorDiv">
-							Name
-						</div>
+					<div class="msg notmy">
+						<div class="msgAuthor">Sasha P.</div>
 						<br>
-						<div id="msgTextDiv">
-							Text
-						</div>
+						<div class="msgText"></div>
 						<br>
-						<div id="msgStatusDiv">
-							Status
-						</div>
-						<div id="msgTimeDiv">
-							Time
-						</div>
+						<div class="msgStatus">Removed</div>
+						<div class="msgTime">12.35</div>
 					</div>
-
-					<div id="msgDiv-notmy">
-						<div id="msgAuthorDiv">
-							Name
-						</div>
+					<div class="msg my">
+						<div class="msgAuthor">Vadim Selianik</div>
 						<br>
-						<div id="msgTextDiv">
-							Text
-						</div>
+						<div class="msgText">I am fine, how are u?</div>
 						<br>
-						<div id="msgStatusDiv">
-							Status
-						</div>
-						<div id="msgTimeDiv">
-							Time
-						</div>
+						<div class="msgStatus"></div>
+						<div class="msgTime">12.36</div>
 					</div>
-
-					<div id="msgDiv-my">
-						<div id="msgAuthorDiv">
-							Name
-						</div>
+					<div class="msg notmy">
+						<div class="msgAuthor">Sasha P.</div>
 						<br>
-						<div id="msgTextDiv">
-							Text
-						</div>
+						<div class="msgText">Fine too, What are u doing?</div>
 						<br>
-						<div id="msgStatusDiv">
-							Status
-						</div>
-						<div id="msgTimeDiv">
-							Time
-						</div>
-					</div>
-				
-					<div id="msgDiv-notmy">
-						<div id="msgAuthorDiv">
-							Sasha P.
-						</div>
-						<br>
-						<div id="msgTextDiv">
-							Hi, how are u?
-						</div>
-						<br>
-						<div id="msgStatusDiv">
-						</div>
-						<div id="msgTimeDiv">
-							12.35
-						</div>
-					</div>
-	
-					<div id="msgDiv-notmy">
-						<div id="msgAuthorDiv">
-							Sasha P.
-						</div>
-						<br>
-						<div id="msgTextDiv">
-						</div>
-						<br>
-						<div id="msgStatusDiv">
-							Removed
-						</div>
-						<div id="msgTimeDiv">
-							12.35
-						</div>
-					</div>
-
-					<div id="msgDiv-my">
-						<div id="msgAuthorDiv">
-							Vaim S.
-						</div>
-						<br>
-						<div id="msgTextDiv">
-							I am fine, how are u?
-						</div>
-						<br>
-						<div id="msgStatusDiv">
-							Read
-						</div>
-						<div id="msgTimeDiv">
-							12.36
-						</div>
-					</div>
-
-					<div id="msgDiv-notmy">
-						<div id="msgAuthorDiv">
-							Sasha P.
-						</div>
-						<br>
-						<div id="msgTextDiv">
-							Fine too, What are u doing?
-						</div>
-						<br>
-						<div id="msgStatusDiv">
-							Changed
-						</div>
-						<div id="msgTimeDiv">
-							12.39
-						</div>
+						<div class="msgStatus">Changed</div>
+						<div class="msgTime">12.39</div>
 					</div>
 				</div>
 
 				<div id="chatInDiv">
-					<textarea id="newMsgTextArea" rows="4"></textarea>
-					<br>
+					<textarea id="newMsgTextArea"></textarea>
 					<button id="sendMsgButton">Send</button>
 				</div>
 			</div>
 		</div>
 
 		<div id="footerDiv">
-			Wroten by Alexandr Pivovarchik
+			Written by Alexandr Pivovarchik
 		</div>
 	</body> 
 </html>
