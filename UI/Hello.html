@@ -18,47 +18,14 @@
 			<div id="userNameDiv">
 				<input type="text" maxlength="15" placeholder="Enter your name..." id="userNameInput">
 				<button id="confirmNameButton"> Confirm </button>
+				<div id="latencyInd"></div>
 				<br>
 				<i> You logged in as:</i>
-				<div id="userName"></div> 
+				<div id="userName"></div>
 			</div>
 
 			<div id="chatBoardDiv">
-				<div id="chatOutDiv">
-					<div class="msg notmy">
-						<div class="msgAuthor">Sasha P.</div>
-						<br>
-						<div class="msgText">Hi, how are u?</div>
-						<br>
-						<div class="msgStatus"></div>
-						<div class="msgTime">12.35</div>
-					</div>
-					<div class="msg notmy">
-						<div class="msgAuthor">Sasha P.</div>
-						<br>
-						<div class="msgText"></div>
-						<br>
-						<div class="msgStatus">Removed</div>
-						<div class="msgTime">12.35</div>
-					</div>
-					<div class="msg my">
-						<div class="msgAuthor">Vadim Selianik</div>
-						<br>
-						<div class="msgText">I am fine, how are u?</div>
-						<br>
-						<div class="msgStatus"></div>
-						<div class="msgTime">12.36</div>
-					</div>
-					<div class="msg notmy">
-						<div class="msgAuthor">Sasha P.</div>
-						<br>
-						<div class="msgText">Fine too, What are u doing?</div>
-						<br>
-						<div class="msgStatus">Changed</div>
-						<div class="msgTime">12.39</div>
-					</div>
-				</div>
-
+				<div id="chatOutDiv"></div>
 				<div id="chatInDiv">
 					<textarea id="newMsgTextArea"></textarea>
 					<button id="sendMsgButton">Send</button>

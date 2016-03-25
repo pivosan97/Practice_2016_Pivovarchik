@@ -1,6 +1,10 @@
 function run(){
 	document.getElementById("confirmNameButton").onclick = confirmButtomClicked;
 	document.getElementById("sendMsgButton").onclick = sendMsgButtonClicked;
+
+	addNewMsg("Hi", "Alex", "12:34:23", "");
+	addNewMsg("Hi Alex", "Vadim", "12:35:12", "");
+	setLatency(1);
 }
 
 function confirmButtomClicked(){
@@ -55,6 +59,16 @@ function createMsgDiv(text, author, date, status){
 		msgDiv.classList.add("notmy");
 	}
 
+	var delButton = document.createElement("button");
+	delButton.classList.add("msgAction");
+	delButton.innerHTML = "D";
+	delButton.onclick = deleteMsg;
+
+	var modifButton = document.createElement("button");
+        modifButton.classList.add("msgAction");
+        modifButton.innerHTML = "M";
+	modifButton.onclick = modifMsg;
+
 	var textDiv = document.createElement("div");
 	textDiv.classList.add("msgText");
 	textDiv.innerHTML = text;
@@ -72,6 +86,8 @@ function createMsgDiv(text, author, date, status){
 	statusDiv.innerHTML = status;
 
 	msgDiv.appendChild(authorDiv);
+	msgDiv.appendChild(delButton);
+	msgDiv.appendChild(modifButton);
 	msgDiv.appendChild(textDiv);
 	msgDiv.appendChild(statusDiv);
 	msgDiv.appendChild(timeDiv);
@@ -91,5 +107,36 @@ function resetMsgOwnship(){
 			msgs[i].classList.remove("my");
 			msgs[i].classList.add("notmy");
 		}
+	}
+}
+
+function modifMsg(){
+	var msgDiv = this.parentNode;
+	msgDiv.childNodes[3].innerHTML = "new msg text";
+	msgDiv.childNodes[4].innerHTML = "modified";
+}
+
+function deleteMsg(){
+	var msgDiv = this.parentNode;
+	msgDiv.childNodes[3].innerHTML = "";
+        msgDiv.childNodes[4].innerHTML = "removed";
+	msgDiv.removeChild(msgDiv.childNodes[2]);
+	msgDiv.removeChild(msgDiv.childNodes[1]);
+}
+
+function setLatency(state){
+	var latInd = document.getElementById("latencyInd");
+	switch(state) {
+		case 1:
+			latInd.className = "coolLat";
+			break;
+		case 2:
+                        latInd.className = "normalLat";
+                        break;
+		case 3:
+                        latInd.className = "badLat";
+                        break;
+		default:
+			//error
 	}
 }
