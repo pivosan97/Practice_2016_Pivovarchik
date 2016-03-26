@@ -1,8 +1,15 @@
 <style>
 #qqq{}
 
+body {
+	background-image: url(background.jpg);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
 #headerDiv {
-        background-color: pink;
+	background-color: hsla(30,80%,80%,0.5);
         color: white;
         text-align: center;	
         padding: 1px;
@@ -19,7 +26,7 @@
 
 #userNameDiv {
 	font-size: 16px;
-	background-color: #eeeeee;
+	background-color: hsla(30,80%,80%,0.5);
 	width: 21%;
 	height: 50%;
 	float:left;
@@ -27,12 +34,20 @@
 }
 
 #userNameInput {
+	border-style: solid;
+	border-width: 2px;
+	border-color: #777777;
+	background-color: hsla(120,80%,80%,0.8);
 	width: 100%;
 	font-size: 14px;
 	margin-bottom: 3%;
 }
 
 #confirmNameButton {
+	border-style: solid;
+	border-color: #777777; 
+	border-width: 2px;
+	background-color: hsla(30,80%,80%,0.9);
 	font-size: 16px;
 	margin-bottom: 20%;
 }
@@ -73,14 +88,17 @@
 
 #chatInDiv {
 	float: top;
-	background-color: green;
-	height: 23%;
+	background-color: hsla(30,80%,80%,0.5);
+	height: 21%;
 	padding: 1%;
+	margin-top: 1%;
 }
 
 #newMsgTextArea {
-	background-color: green;
+	resize: none;
+	background-color: hsla(30,80%,80%,0);
 	border-style: solid;
+	border-color: #777777;	
 	border-width: 2px;
 	width: 100%;
 	margin-bottom: 1%;
@@ -90,6 +108,10 @@
 }
 
 #sendMsgButton {
+	border-style: solid;
+	border-width: 2px;
+	border-color: #777777;
+	background-color: hsla(30,80%,80%,0.9);
 	text-align: center;
 	font-size: 16px;
 	width: 16%;
@@ -100,7 +122,7 @@
 	padding: 1%;
 	overflow: auto;
 	float: top;
-	background-color: red;
+	background-color: hsla(120,80%,80%,0.4);
 	height: 73%;
 }
 
@@ -112,8 +134,8 @@ div.msg {
 	width: 70%;
 	border-style: solid;
 	border-width: 2px;
-	background-color: red;
-	border-color: black;
+	border-color: #777777;
+	background-color: hsla(30,80%,80%,0.7);
 	
 }
 
@@ -153,10 +175,10 @@ button.msgAction{
 	margin-left: 3px;
 	font-size: 12px;
 	float: right;
-	border-color: black;
+	border-color: #777777;
 	border-width: 1px;
 	border-style: solid;
-	background-color: red;
+	background-color: hsla(120,80%,80%,0.5);
 	height: 20px;
 	width: 20px;
 }
@@ -165,7 +187,7 @@ button.msgAction{
 	clear: left;
 	padding: 5px;
 	margin: 5px;
-	background-color: black;
+	background-color: hsla(120,80%,80%,0.4);
 	color: white;
 	text-align: center;
 }
