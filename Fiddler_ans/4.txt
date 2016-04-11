@@ -1,0 +1,13 @@
+GET http://127.0.0.1:8888/chat?token=TN11EN HTTP/1.1
+User-Agent: Java/1.8.0_51
+Host: 127.0.0.1:8888
+Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+Connection: keep-alive
+
+
+HTTP/1.1 200 OK
+Date: Mon, 11 Apr 2016 20:09:20 GMT
+Access-control-allow-origin: *
+Content-length: 67
+
+{"messages":["Privet","Kak dela dro?","Brrrrrrr"],"token":"TN11EN"}

@@ -1,0 +1,6 @@
+HTTP/1.1 200 OK
+Date: Mon, 11 Apr 2016 20:09:20 GMT
+Access-control-allow-origin: *
+Content-length: 67
+
+{"messages":["Sasha","Vadim","Dasha"],"token":"TN11EN"}
