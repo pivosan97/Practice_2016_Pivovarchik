@@ -1,6 +1,6 @@
 HTTP/1.1 200 OK
-Date: Mon, 11 Apr 2016 20:09:20 GMT
+Date: Tue, 19 Apr 2016 08:55:16 GMT
 Access-control-allow-origin: *
-Content-length: 67
+Content-Length: 66
 
-{"messages":["Sasha","Vadim","Dasha"],"token":"TN11EN"}
+{"messages":["privet","kak dela?","Vse horosho"],"token":"TN35EN"}

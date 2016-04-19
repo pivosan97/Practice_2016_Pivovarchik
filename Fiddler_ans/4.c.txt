@@ -1,0 +1,13 @@
+GET http://127.0.0.1:8888/chat?token=TN35EN HTTP/1.1
+User-Agent: Java/1.8.0_51
+Host: 127.0.0.1:8888
+Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+Connection: keep-alive
+
+
+HTTP/1.1 404 Fiddled
+Content-Length: 512
+Date: Tue, 19 Apr 2016 09:16:19 GMT
+Cache-Control: max-age=0, must-revalidate
+
+[Fiddler] The Fiddler AutoResponder is enabled, but this request did not match any of the listed rules. Because the "Unmatched requests passthrough" option on the AutoResponder tab is not enabled, this HTTP/404 response has been generated.                                                                                                                                                                                                                                                                                 
