@@ -1,0 +1,3 @@
+2
+Message{id='1', author='User1', timestamp=1459169330000, text='', status='removed'}
+Message{id='2', author='User 2', timestamp=1459169330000, text='!I am busy now!', status='edited'}
