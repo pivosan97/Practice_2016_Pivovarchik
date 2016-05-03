@@ -1,3 +1,7 @@
-2
-Message{id='1', author='User1', timestamp=1459169330000, text='', status='removed'}
-Message{id='2', author='User 2', timestamp=1459169330000, text='!I am busy now!', status='edited'}
+4
+Message{id='1063317988140', author='User 2', timestamp=123, text='Hi
+', status='new'}
+Message{id='302341639671', author='Sasha', timestamp=123, text='', status='removed'}
+Message{id='196657866249', author='Sasha', timestamp=123, text='', status='removed'}
+Message{id='848171670286', author='Sasha', timestamp=123, text='prrr
+', status='edited'}

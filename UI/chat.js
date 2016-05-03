@@ -1,5 +1,9 @@
+'use strict';
+
 var msgList = [];
-var isModifMsg;
+var isModifMsg = false;
+var mainUrl = 'http://127.0.0.1:1555/chat';
+var token = 'TN11EN';
 
 function run(){
 	document.getElementById("confirmNameButton").onclick = confirmNameButtomClicked;
@@ -10,18 +14,77 @@ function run(){
         					sendMsgButtonClicked();
     					}
 				}
-	
-	var msgsHist = loadHist();
-	for(var i=0; msgsHist && i<msgsHist.length; i++){
-		addNewMsgInLocal(msgsHist[i]);
-		addNewMsgInHTML(msgsHist[i]);
-	}
+
+	Update();
 
 	var name = loadName();
 	setCurName(name);
 
 	updateLatency();
 	isModifMsg = false;
+}
+
+function Update() {
+	clear();
+	var url = mainUrl + '?token=' + token;
+	ajax('GET', url, null, function(responseText){
+		var response = JSON.parse(responseText);
+
+		//token = response.token;
+		var messages = response.messages;
+		for(var i=0; i<messages.length; i++){
+			receiveNewMsg(messages[i]);
+		}
+	});
+
+	setTimeout(Update, 1000);
+}
+
+function receiveNewMsg(msg) {
+	addNewMsgInLocal(msg);
+	addNewMsgInHTML(msg);
+}
+
+function receiveMsgModif(msgID, text) {
+	modifMsgInLocal(msgID, text, "modified");
+	modifMsgInHTML(msgID, text, "modified");
+}
+
+function receiveMsgDelete(msgID) {
+	modifMsgInLocal(msgID, "", "removed")
+	modifMsgInHTML(msgID, "", "removed");
+}
+
+function sendNewMsg(msg) {
+//protocol fields -> id: text: author: timestamp:
+	var msgToSend = {
+		id : msg.id,
+		author : msg.author,
+		text : msg.text,
+		timestamp : 123
+	};
+
+	ajax('POST', mainUrl, JSON.stringify(msgToSend), function(){});
+}
+
+function sendDeleteMsg(msgID) {
+//protocol fields -> id:
+	var msgToDelete = {
+		id : msgID
+	};
+
+	ajax('DELETE', mainUrl, JSON.stringify(msgToDelete), function(){});	
+}
+
+function sendModifMsg(msgID, newText) {
+//protocol fields -> id: text: 
+
+	var msgToModif = {
+		id : msgID,
+		text : newText
+	};
+
+	ajax('PUT', mainUrl, JSON.stringify(msgToModif), function(){});	
 }
 
 function addNewMsgInLocal(msg){
@@ -34,6 +97,33 @@ function addNewMsgInHTML(msg){
 	var msgsBoardDiv =  document.getElementById("chatOutDiv");
 	msgsBoardDiv.appendChild(msgDiv);
 	scrollDown();
+}
+
+function modifMsgInLocal(id, text, status) {
+	for(var i=0; msgList && i<msgList.length; i++) {
+		if(msgList[i].id == id) {
+			msgList[i].text = text;
+			msgList[i].status = status;	
+			saveHist(msgList);
+			return;
+		}
+	}
+}
+
+function modifMsgInHTML(msgID, text, status){
+	msgDivList = document.getElementsByClassName("msg");
+	for(var i=0; i<msgDivList.length; i++){
+		id = msgDivList[i].attributes['msg-id'].value;
+		if(id == msgID){
+			msgDivList[i].childNodes[3].innerHTML = text;
+        		msgDivList[i].childNodes[4].innerHTML = status;
+			if(status == "removed") {
+				msgDivList[i].removeChild(msgDivList[i].getElementsByClassName("msgAction")[1]);
+				msgDivList[i].removeChild(msgDivList[i].getElementsByClassName("msgAction")[0]);
+			}
+			return;
+		}
+	}
 }
 
 function scrollDown() {
@@ -72,6 +162,23 @@ function getCurName() {
 	return userNameDiv.innerHTML;
 }
 
+function clear(){
+	clearInLocal();
+	clearInHtml();
+}
+
+function clearInLocal(){
+	msgList = [];
+}
+
+function clearInHtml(){
+	var chatOutDiv = document.getElementById("chatOutDiv");
+	var msgs = document.getElementById("chatOutDiv").getElementsByClassName("msg");
+	for(var i=msgs.length - 1; i>=0; i--){
+		chatOutDiv.removeChild(msgs[i]);
+	}
+}
+
 function sendMsgButtonClicked(){
 	if(isModifMsg){
 		alert("Please finish message modification")
@@ -88,10 +195,9 @@ function sendMsgButtonClicked(){
 	if(newMsgTextArea.value){
 		var date = new Date();
 		var dateStr = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-
 		var msg = createMsg(newMsgTextArea.value, getCurName(), dateStr, "");
-		addNewMsgInHTML(msg);
-		addNewMsgInLocal(msg);
+
+		sendNewMsg(msg);
 
 		newMsgTextArea.value = "";	
 	} else {
@@ -113,7 +219,8 @@ function createMsgDiv(msg){
 	var modifButton = createModifButton();
 	var textDiv = createTextDiv(msg.text);
 	var authorDiv = createAuthorDiv(msg.author);
-	var dateDiv = createDateDiv(msg.date);
+	//var dateDiv = createDateDiv(msg.date);
+	var dateDiv = createDateDiv("date");
 	var statusDiv = createStatusDiv(msg.status);
 
 	msgDiv.setAttribute('msg-id', msg.id);
@@ -193,11 +300,9 @@ function confirmModifButtonClicked(){
 	var newText = modifDiv.getElementsByClassName("modifMsg")[0].value;
 	
 	if(newText) {
-		modifMsgInLocal(msgID, newText, "modified");
-		modifMsgInHTML(msgID, newText, "modified");
+		sendModifMsg(msgID, newText);
 	} else {
-		modifMsgInLocal(msgID, newText, "removed");
-		modifMsgInHTML(msgID, newText, "removed");
+		alert("You can`t send empty message!")
 	}
 
 	closeModifPopUp();
@@ -207,33 +312,6 @@ function confirmModifButtonClicked(){
 function cancelModifButtonClicked(){
 	closeModifPopUp();
 	isModifMsg = false;
-}
-
-function modifMsgInLocal(id, text, status) {
-	for(var i=0; msgList && i<msgList.length; i++) {
-		if(msgList[i].id == id) {
-			msgList[i].text = text;
-			msgList[i].status = status;	
-			saveHist(msgList);
-			return;
-		}
-	}
-}
-
-function modifMsgInHTML(msgID, text, status){
-	msgDivList = document.getElementsByClassName("msg");
-	for(var i=0; i<msgDivList.length; i++){
-		id = msgDivList[i].attributes['msg-id'].value;
-		if(id == msgID){
-			msgDivList[i].childNodes[3].innerHTML = text;
-        		msgDivList[i].childNodes[4].innerHTML = status;
-			if(status == "removed") {
-				msgDivList[i].removeChild(msgDivList[i].getElementsByClassName("msgAction")[1]);
-				msgDivList[i].removeChild(msgDivList[i].getElementsByClassName("msgAction")[0]);
-			}
-			return;
-		}
-	}
 }
 
 function deleteMsgButtonClicked(){
@@ -248,8 +326,7 @@ function deleteMsgButtonClicked(){
 
 	if(curAuthor == msgAuthor) {
 		var id = msgDiv.attributes['msg-id'].value;
-		modifMsgInLocal(id, "", "removed");
-		modifMsgInHTML(id, "", "removed");
+		sendDeleteMsg(id);
 	} else {
 		alert("You can`t remove not your message!");
 	}
@@ -402,4 +479,63 @@ function createCancelModifButton(){
 	cancelModifButton.innerHTML = "Cancel";
 	cancelModifButton.onclick = cancelModifButtonClicked;
 	return cancelModifButton;
+}
+
+function ajax(method, url, data, continueWith, continueWithError) {
+	var xhr = new XMLHttpRequest();
+
+	continueWithError = continueWithError || defaultErrorHandler;
+	xhr.open(method || 'GET', url, true);
+
+	xhr.onload = function () {
+		if (xhr.readyState !== 4)
+			return;
+
+		if(xhr.status != 200) {
+			continueWithError('Error on the server side, response ' + xhr.status);
+			return;
+		}
+
+		if(isError(xhr.responseText)) {
+			continueWithError('Error on the server side, response ' + xhr.responseText);
+			return;
+		}
+
+		continueWith(xhr.responseText);
+	};    
+
+    xhr.ontimeout = function () {
+    	ontinueWithError('Server timed out !');
+    };
+
+    xhr.onerror = function (e) {
+    	var errMsg = 'Server connection error !\n'+
+    	'\n' +
+    	'Check if \n'+
+    	'- server is active\n'+
+    	'- server sends header "Access-Control-Allow-Origin:*"\n'+
+    	'- server sends header "Access-Control-Allow-Methods: PUT, DELETE, POST, GET, OPTIONS"\n';
+
+        continueWithError(errMsg);
+    };
+
+    xhr.send(data);
+}
+
+function defaultErrorHandler(message) {
+	console.error(message);
+	output(message);
+}
+
+function isError(text) {
+	if(text == "")
+		return false;
+	
+	try {
+		var obj = JSON.parse(text);
+	} catch(ex) {
+		return true;
+	}
+
+	return !!obj.error;
 }
