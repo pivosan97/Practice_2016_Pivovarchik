@@ -28,13 +28,17 @@ function Update() {
 	clear();
 	var url = mainUrl + '?token=' + token;
 	ajax('GET', url, null, function(responseText){
-		var response = JSON.parse(responseText);
+		setLatency(1);
 
-		//token = response.token;
+		var response = JSON.parse(responseText);		
 		var messages = response.messages;
 		for(var i=0; i<messages.length; i++){
 			receiveNewMsg(messages[i]);
 		}
+	}, 
+	function(errorText){
+		console.error(errorText);
+		setLatency(3);
 	});
 
 	setTimeout(Update, 1000);
@@ -332,10 +336,6 @@ function deleteMsgButtonClicked(){
 	}
 }
 
-function updateLatency() {
-	setLatency(1);
-}
-
 function saveName(newName) {
 	if(typeof(Storage) == "undefined") {
 		alert('localStorage is not accessible');
@@ -505,7 +505,7 @@ function ajax(method, url, data, continueWith, continueWithError) {
 	};    
 
     xhr.ontimeout = function () {
-    	ontinueWithError('Server timed out !');
+    	continueWithError('Server timed out !');
     };
 
     xhr.onerror = function (e) {

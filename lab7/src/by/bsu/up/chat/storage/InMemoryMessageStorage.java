@@ -8,6 +8,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 
 public class InMemoryMessageStorage implements MessageStorage {
 
@@ -31,9 +32,8 @@ public class InMemoryMessageStorage implements MessageStorage {
             return;
         }
 
-        out.println(messages.size());
         for(Message msg : messages){
-            out.println(msg);
+            out.print(msg + "@");
         }
 
         out.close();
@@ -51,21 +51,21 @@ public class InMemoryMessageStorage implements MessageStorage {
             return;
         }
 
-        Integer num = in.nextInt();
-        in.nextLine();
-
-        for(int i=0; i<num; i++){
-            String buf = in.nextLine();
-            try{
-                messages.add(new Message(buf));
-            } catch(Exception err){
-                logger.error("Failed to parse history file", err);
-                messages.clear();
-                return;
-            }
+        StringBuilder buf = new StringBuilder();
+        while(in.hasNext()){
+            buf.append(in.nextLine());
         }
 
-        logger.info("Load history from file");
+        try{
+            StringTokenizer tokenizer = new StringTokenizer(buf.toString(), "@", false);
+            while (tokenizer.hasMoreTokens()) {
+                messages.add(new Message(tokenizer.nextToken()));
+            }
+
+            logger.info("Load history from file");
+        } catch (Exception err) {
+            logger.error("Failed to parsehistory file", err);
+        }
     }
 
     @Override

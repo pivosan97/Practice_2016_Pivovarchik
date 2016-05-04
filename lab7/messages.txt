@@ -1,7 +1,4 @@
-4
-Message{id='1063317988140', author='User 2', timestamp=123, text='Hi
-', status='new'}
-Message{id='302341639671', author='Sasha', timestamp=123, text='', status='removed'}
-Message{id='196657866249', author='Sasha', timestamp=123, text='', status='removed'}
-Message{id='848171670286', author='Sasha', timestamp=123, text='prrr
-', status='edited'}
+Message{id='9535308304', author='Dima', timestamp=123, text='Hi bro', status='new'}@Message{id='74447104308', author='Dima', timestamp=123, text='Ololo', status='new'}@Message{id='72853011036', author='Sasha', timestamp=123, text='', status='removed'}@Message{id='51138854031', author='Dima', timestamp=123, text='Privet
+', status='new'}@Message{id='483152332062', author='Sasha', timestamp=123, text='Kak dela?
+Kak ucheba?', status='edited'}@Message{id='1020497315863', author='Dima', timestamp=123, text='Otlichno
+', status='new'}@
